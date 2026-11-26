@@ -61,6 +61,21 @@ jobs:
           ref: ${{ steps.version.outputs.fonts }}
           path: craft-fonts
 
+      - name: Interface translations (craft-i18n, at the commit craft-i18n.rev pins)
+        id: i18n
+        if: hashFiles('craft-i18n.rev') != ''
+        shell: pwsh
+        run: |
+          "rev=$((Get-Content craft-i18n.rev -Raw).Trim())" >> $env:GITHUB_OUTPUT
+
+      - name: Check out craft-i18n
+        if: steps.i18n.outputs.rev != ''
+        uses: actions/checkout@v4
+        with:
+          repository: storytold/craft-i18n
+          ref: ${{ steps.i18n.outputs.rev }}
+          path: craft-i18n
+
       - name: Rust toolchain (rust-toolchain.toml)
         shell: pwsh
         run: rustup show active-toolchain || rustup toolchain install
@@ -77,6 +92,8 @@ jobs:
           DIST: ${{ github.workspace }}\upload
         run: |
           if (Test-Path craft-fonts) { $env:CRAFT_FONTS_DIR = (Resolve-Path craft-fonts).Path; $env:CRAFT_FONTS_REQUIRED = '1' }
+          # Without the catalogs the interface is English only.
+          if (Test-Path craft-i18n) { $env:CRAFT_I18N_DIR = (Resolve-Path craft-i18n).Path; $env:CRAFT_I18N_REQUIRED = '1' }
           pwsh packaging/windows/package.ps1 -Arch x64
 
       - name: Checksums
