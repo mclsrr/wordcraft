@@ -1,3 +1,5 @@
+Windows artwork is supplied by Design System in Iconos-Design-System.zip. The stable ICO and the 512 px hicolor PNG are master files. The document pair comes from documentos/docx. Regenerating smaller hicolor PNGs with packaging/icons.sh requires ImageMagick 7.
+
 # WordCraft app icon
 
 A **page and pen**: a sheet of paper with a folded corner and ruled lines, with a fountain pen
