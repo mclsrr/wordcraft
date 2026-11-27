@@ -31,7 +31,7 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 180
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Read the version
         id: version
@@ -55,7 +55,7 @@ jobs:
 
       - name: Fonts (storytold/craft-fonts, as the official release)
         if: steps.version.outputs.fonts != ''
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: storytold/craft-fonts
           ref: ${{ steps.version.outputs.fonts }}
@@ -70,7 +70,7 @@ jobs:
 
       - name: Check out craft-i18n
         if: steps.i18n.outputs.rev != ''
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: storytold/craft-i18n
           ref: ${{ steps.i18n.outputs.rev }}
